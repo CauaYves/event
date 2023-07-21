@@ -3,16 +3,7 @@ import { notFoundError } from '@/errors';
 import ticketsRepository from '@/repositories/tickets-repository';
 import bookingRepository from '@/repositories/booking-repository';
 import { noVacancyError } from '@/errors/no-vacancy-error';
-
-async function checkIntegrityAndlistRooms(userId: number) {
-  const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
-  if (!enrollment) throw notFoundError();
-
-  const ticket = await ticketsRepository.findTicketByEnrollmentId(enrollment.id);
-  if (!ticket || ticket.status === 'RESERVED' || !ticket.TicketType.includesHotel || ticket.TicketType.isRemote) {
-    throw noVacancyError();
-  }
-}
+import roomRepository from '@/repositories/room-repository';
 
 async function getRooms(userId: number) {
   const booking = await bookingRepository.findReserveByUserId(userId);
@@ -25,9 +16,28 @@ async function getRooms(userId: number) {
 }
 
 async function makeReseve(userId: number, roomId: number) {
-  await checkIntegrityAndlistRooms(userId);
+  const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
+  if (!enrollment) {
+    throw notFoundError();
+  }
+
+  const ticket = await ticketsRepository.findTicketByEnrollmentId(enrollment.id);
+  if (!ticket || ticket.status === 'RESERVED' || !ticket.TicketType.includesHotel || ticket.TicketType.isRemote) {
+    throw noVacancyError();
+  }
+
+  const room = await roomRepository.findRoomById(roomId);
+  // verificar se o quarto nao existe 404
+  if (!room) {
+    throw notFoundError();
+  }
+  // verificar se o quarto possui vagas 403
+  if (room.capacity < 1) {
+    throw noVacancyError();
+  }
+
   const booking = await bookingRepository.create(userId, roomId);
-  return booking;
+  return booking.id;
 }
 
 async function changeRoom(/*userId: number, bookingId: number, roomId: number*/) {

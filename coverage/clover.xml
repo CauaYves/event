@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1689967838018" clover="3.2.0">
+  <project timestamp="1689967838018" name="All files">
+    <metrics statements="121" coveredstatements="99" conditionals="17" coveredconditionals="11" methods="22" coveredmethods="17" elements="160" coveredelements="127" complexity="0" loc="121" ncloc="121" packages="9" files="10" classes="10"/>
+    <package name="src">
+      <metrics statements="17" coveredstatements="16" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="2"/>
+      <file name="app.ts" path="C:\Driven\projetos\drivent_week4\src\app.ts">
+        <metrics statements="17" coveredstatements="16" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="2"/>
+        <line num="1" count="11" type="stmt"/>
+        <line num="2" count="11" type="stmt"/>
+        <line num="3" count="11" type="stmt"/>
+        <line num="4" count="11" type="stmt"/>
+        <line num="6" count="11" type="stmt"/>
+        <line num="8" count="11" type="stmt"/>
+        <line num="10" count="11" type="stmt"/>
+        <line num="11" count="11" type="stmt"/>
+        <line num="22" count="11" type="stmt"/>
+        <line num="23" count="11" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="37" count="11" type="stmt"/>
+        <line num="38" count="11" type="stmt"/>
+        <line num="39" count="11" type="stmt"/>
+        <line num="42" count="11" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="46" count="11" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.controllers">
+      <metrics statements="26" coveredstatements="14" conditionals="6" coveredconditionals="2" methods="3" coveredmethods="2"/>
+      <file name="booking-controller.ts" path="C:\Driven\projetos\drivent_week4\src\controllers\booking-controller.ts">
+        <metrics statements="26" coveredstatements="14" conditionals="6" coveredconditionals="2" methods="3" coveredmethods="2"/>
+        <line num="2" count="11" type="stmt"/>
+        <line num="4" count="11" type="stmt"/>
+        <line num="6" count="11" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="12" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="16" count="11" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="23" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="24" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="28" count="11" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="37" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="38" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="39" count="0" type="cond" truecount="0" falsecount="1"/>
+      </file>
+    </package>
+    <package name="src.errors">
+      <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="index.ts" path="C:\Driven\projetos\drivent_week4\src\errors\index.ts">
+        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="11" type="stmt"/>
+        <line num="2" count="11" type="stmt"/>
+        <line num="3" count="11" type="stmt"/>
+        <line num="4" count="11" type="stmt"/>
+        <line num="5" count="11" type="stmt"/>
+        <line num="6" count="11" type="stmt"/>
+        <line num="7" count="11" type="stmt"/>
+      </file>
+      <file name="no-vacancy-error.ts" path="C:\Driven\projetos\drivent_week4\src\errors\no-vacancy-error.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="3" count="11" type="stmt"/>
+        <line num="4" count="3" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.repositories.booking-repository">
+      <metrics statements="5" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
+      <file name="index.ts" path="C:\Driven\projetos\drivent_week4\src\repositories\booking-repository\index.ts">
+        <metrics statements="5" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
+        <line num="1" count="11" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="20" count="11" type="stmt"/>
+        <line num="25" count="11" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.repositories.room-repository">
+      <metrics statements="4" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <file name="index.ts" path="C:\Driven\projetos\drivent_week4\src\repositories\room-repository\index.ts">
+        <metrics statements="4" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="11" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="9" count="11" type="stmt"/>
+        <line num="12" count="11" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.repositories.tickets-repository">
+      <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
+      <file name="index.ts" path="C:\Driven\projetos\drivent_week4\src\repositories\tickets-repository\index.ts">
+        <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
+        <line num="1" count="11" type="stmt"/>
+        <line num="2" count="11" type="stmt"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="10" count="13" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+        <line num="25" count="8" type="stmt"/>
+        <line num="36" count="3" type="stmt"/>
+        <line num="47" count="3" type="stmt"/>
+        <line num="57" count="11" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.services.booking-service">
+      <metrics statements="23" coveredstatements="16" conditionals="9" coveredconditionals="7" methods="4" coveredmethods="3"/>
+      <file name="index.ts" path="C:\Driven\projetos\drivent_week4\src\services\booking-service\index.ts">
+        <metrics statements="23" coveredstatements="16" conditionals="9" coveredconditionals="7" methods="4" coveredmethods="3"/>
+        <line num="1" count="11" type="stmt"/>
+        <line num="2" count="11" type="stmt"/>
+        <line num="3" count="11" type="stmt"/>
+        <line num="4" count="11" type="stmt"/>
+        <line num="5" count="11" type="stmt"/>
+        <line num="6" count="11" type="stmt"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="10" count="3" type="cond" truecount="1" falsecount="0"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="13" count="2" type="cond" truecount="5" falsecount="0"/>
+        <line num="14" count="2" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="21" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="33" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="35" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="37" count="0" type="stmt"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="45" count="11" type="stmt"/>
+        <line num="51" count="11" type="stmt"/>
+      </file>
+    </package>
+    <package name="tests">
+      <metrics statements="21" coveredstatements="21" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+      <file name="helpers.ts" path="C:\Driven\projetos\drivent_week4\tests\helpers.ts">
+        <metrics statements="21" coveredstatements="21" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <line num="1" count="10" type="stmt"/>
+        <line num="4" count="10" type="stmt"/>
+        <line num="5" count="10" type="stmt"/>
+        <line num="6" count="10" type="stmt"/>
+        <line num="8" count="10" type="stmt"/>
+        <line num="9" count="63" type="stmt"/>
+        <line num="10" count="58" type="stmt"/>
+        <line num="11" count="58" type="stmt"/>
+        <line num="12" count="58" type="stmt"/>
+        <line num="13" count="58" type="stmt"/>
+        <line num="14" count="58" type="stmt"/>
+        <line num="15" count="58" type="stmt"/>
+        <line num="16" count="58" type="stmt"/>
+        <line num="17" count="58" type="stmt"/>
+        <line num="18" count="58" type="stmt"/>
+        <line num="19" count="58" type="stmt"/>
+        <line num="22" count="10" type="stmt"/>
+        <line num="23" count="38" type="cond" truecount="2" falsecount="0"/>
+        <line num="24" count="38" type="stmt"/>
+        <line num="26" count="38" type="stmt"/>
+        <line num="28" count="38" type="stmt"/>
+      </file>
+    </package>
+    <package name="tests.factories">
+      <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="index.ts" path="C:\Driven\projetos\drivent_week4\tests\factories\index.ts">
+        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="10" type="stmt"/>
+        <line num="2" count="10" type="stmt"/>
+        <line num="3" count="10" type="stmt"/>
+        <line num="4" count="10" type="stmt"/>
+        <line num="5" count="10" type="stmt"/>
+        <line num="6" count="10" type="stmt"/>
+        <line num="7" count="10" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>

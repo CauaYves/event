@@ -17,12 +17,13 @@ export async function reserveRoom(req: AuthenticatedRequest, res: Response) {
   try {
     const { roomId } = req.body;
     const { userId } = req;
-    const booking = await bookingService.makeReseve(userId, Number(roomId));
-    return res.send(booking.id).status(httpStatus.OK);
+    const id = await bookingService.makeReseve(userId, Number(roomId));
+    console.log(id);
+    res.send(id);
   } catch (error) {
     if (error.name === 'NoVacancyError') return res.sendStatus(httpStatus.FORBIDDEN);
     if (error.name === 'NotFoundError') return res.sendStatus(httpStatus.NOT_FOUND);
-    if (error.name === 'CannotListHotelsError') return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
+    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
   }
 }
 
