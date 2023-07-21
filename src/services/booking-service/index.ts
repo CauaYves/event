@@ -1,31 +1,36 @@
 import enrollmentRepository from '@/repositories/enrollment-repository';
 import { notFoundError } from '@/errors';
 import ticketsRepository from '@/repositories/tickets-repository';
-import { cannotListHotelsError } from '@/errors/cannot-list-hotels-error';
 import bookingRepository from '@/repositories/booking-repository';
 import { noVacancyError } from '@/errors/no-vacancy-error';
 
-async function listRooms(userId: number) {
+async function checkIntegrityAndlistRooms(userId: number) {
   const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
   if (!enrollment) throw notFoundError();
 
   const ticket = await ticketsRepository.findTicketByEnrollmentId(enrollment.id);
-  if (ticket.TicketType.isRemote) throw noVacancyError(); //FORBIDDEN 403
-  if (!ticket || ticket.status === 'RESERVED' || !ticket.TicketType.includesHotel) throw cannotListHotelsError(); //PAYMENT_REQUIRED 402
-  return;
+  if (!ticket || ticket.status === 'RESERVED' || !ticket.TicketType.includesHotel || ticket.TicketType.isRemote) {
+    throw noVacancyError();
+  }
 }
 
 async function getRooms(userId: number) {
-  await listRooms(userId);
+  const booking = await bookingRepository.findReserveByUserId(userId);
+
+  if (!booking) throw notFoundError();
+  return {
+    id: booking.id,
+    Room: booking.Room,
+  };
 }
 
 async function makeReseve(userId: number, roomId: number) {
-  await listRooms(userId);
+  await checkIntegrityAndlistRooms(userId);
   const booking = await bookingRepository.create(userId, roomId);
   return booking;
 }
 
-async function changeRoom(userId: number, bookingId: number, roomId: number) {
+async function changeRoom(/*userId: number, bookingId: number, roomId: number*/) {
   return 1;
 }
 

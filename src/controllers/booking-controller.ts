@@ -6,8 +6,8 @@ import bookingService from '@/services/booking-service';
 export async function listRoomsReserves(req: AuthenticatedRequest, res: Response) {
   try {
     const { userId } = req;
-    const room = await bookingService.getRooms(userId);
-    res.send(room);
+    const bookingAndRoomData = await bookingService.getRooms(userId);
+    res.send(bookingAndRoomData);
   } catch (error) {
     if (error.name === 'NotFoundError') return res.sendStatus(httpStatus.NOT_FOUND);
   }
@@ -31,7 +31,8 @@ export async function changeReserve(req: AuthenticatedRequest, res: Response) {
     const { roomId } = req.body;
     const { bookingId } = req.params;
     const { userId } = req;
-    const room = await bookingService.changeRoom(userId, Number(bookingId), Number(roomId));
+    // userId, Number(bookingId), Number(roomId);
+    const room = await bookingService.changeRoom();
     res.send(room);
   } catch (error) {
     if (error.name === 'NoVacancyError') return res.sendStatus(httpStatus.FORBIDDEN);
