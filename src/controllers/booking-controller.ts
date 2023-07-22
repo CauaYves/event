@@ -7,7 +7,7 @@ export async function listRoomsReserves(req: AuthenticatedRequest, res: Response
   try {
     const { userId } = req;
     const bookingAndRoomData = await bookingService.getRooms(userId);
-    res.send(bookingAndRoomData);
+    return res.send(bookingAndRoomData);
   } catch (error) {
     if (error.name === 'NotFoundError') return res.sendStatus(httpStatus.NOT_FOUND);
   }
@@ -17,9 +17,8 @@ export async function reserveRoom(req: AuthenticatedRequest, res: Response) {
   try {
     const { roomId } = req.body;
     const { userId } = req;
-    const id = await bookingService.makeReseve(userId, Number(roomId));
-    console.log(id);
-    res.send(id);
+    const bookingId = await bookingService.makeReseve(userId, Number(roomId));
+    return res.send({ bookingId });
   } catch (error) {
     if (error.name === 'NoVacancyError') return res.sendStatus(httpStatus.FORBIDDEN);
     if (error.name === 'NotFoundError') return res.sendStatus(httpStatus.NOT_FOUND);
