@@ -32,7 +32,7 @@ async function makeReseve(userId: number, roomId: number) {
     throw notFoundError();
   }
   // verificar se o quarto possui vagas 403
-  if (room.capacity < 1) {
+  if (room.capacity <= 0) {
     throw noVacancyError();
   }
 
@@ -42,7 +42,7 @@ async function makeReseve(userId: number, roomId: number) {
 
 async function changeRoom(userId: number, bookingId: number, roomId: number) {
   const oldReserve = await getRooms(userId);
-  if (!oldReserve) throw notFoundError();
+  if (!oldReserve) throw noVacancyError();
 
   const room = await roomRepository.findRoomById(roomId);
   if (!room) {

@@ -141,4 +141,36 @@ describe('PUT /booking/:bookingId', () => {
 
     expect(response.status).toBe(httpStatus.UNAUTHORIZED);
   });
+
+  describe('bookingService', async () => {
+    it('should return 404 when user no have maded reserve', async () => {
+      const user = await createUser();
+      const enrollment = await createEnrollmentWithAddress(user);
+      const ticketType = await createTicketTypeWithHotel();
+      await createTicket(enrollment.id, ticketType.id, 'PAID');
+      const hotel = await createHotel();
+      const room = await createRoomWithHotelId(hotel.id);
+      const booking = await generateRoom(user.id, room.id);
+
+      jest.spyOn(bookingService, 'getRooms').mockImplementationOnce(async () => {
+        return Promise.resolve({
+          // Retorna uma Promise que resolve para o objeto correto
+          id: booking.id,
+          Room: room,
+        });
+      });
+
+      const response = await bookingService.changeRoom(user.id, booking.id, room.id);
+
+      expect(response).toBe(httpStatus.NOT_FOUND);
+    });
+  });
 });
+
+// - 💼 Regra de negócio:
+// - A troca pode ser efetuada para usuários que possuem reservas.
+// - A troca pode ser efetuada apenas para quartos livres.
+
+// - `roomId` não existente: Deve retornar status code `404`.
+// - `roomId` sem vaga: Deve retornar status code `403`.
+// - Fora da regra de negócio: Deve retornar status code `403`.
