@@ -7,6 +7,12 @@ async function findReserveByUserId(userId: number) {
   });
 }
 
+async function getBookingByRoomId(roomId: number) {
+  return prisma.booking.count({
+    where: { roomId },
+  });
+}
+
 async function create(userId: number, roomId: number) {
   return prisma.booking.create({
     data: {
@@ -20,6 +26,7 @@ async function create(userId: number, roomId: number) {
 const bookingRepository = {
   findReserveByUserId,
   create,
+  getBookingByRoomId,
 };
 
 export default bookingRepository;
