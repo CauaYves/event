@@ -10,6 +10,7 @@ import {
   createUser,
 } from '../factories';
 import { cleanDb, generateValidToken } from '../helpers';
+import { generateRoom } from '../factories/room-factory';
 import app, { init } from '@/app';
 import bookingService from '@/services/booking-service';
 import { notFoundError } from '@/errors';
@@ -108,12 +109,30 @@ describe('GET /booking', () => {
     expect(response.status).toBe(httpStatus.NOT_FOUND);
   });
 
-  // it('should return 200 when user as maded reserve', async () => {
-  //   const token = generateValidToken();
-  //   const response = await server.get('/booking').set('Authorizarion', `Bearer ${token}`);
+  it('should return 200 when user as maded reserve', async () => {
+    const user = await createUser();
+    const token = await generateValidToken(user);
+    const enrollment = await createEnrollmentWithAddress(user);
+    const ticketType = await createTicketTypeWithHotel();
+    await createTicket(enrollment.id, ticketType.id, 'PAID');
+    const hotel = await createHotel();
+    const room = await createRoomWithHotelId(hotel.id);
+    const booking = await generateRoom(user.id, room.id);
+    const response = await server.get('/booking').set('Authorization', `Bearer ${token}`);
 
-  //   expect(response.status).toBe(httpStatus.OK);
-  // });
+    expect(response.status).toBe(httpStatus.OK);
+    expect(response.body).toMatchObject({
+      id: booking.id,
+      Room: {
+        id: room.id,
+        name: room.name,
+        capacity: room.capacity,
+        hotelId: room.hotelId,
+        createdAt: expect.any(String),
+        updatedAt: expect.any(String),
+      },
+    });
+  });
 });
 
 describe('PUT /booking/:bookingId', () => {

@@ -53,7 +53,7 @@ async function changeRoom(userId: number, bookingId: number, roomId: number) {
   }
   const deletedOldReserve = await roomRepository.deleteRoom(roomId);
 
-  if (oldReserve.id !== deletedOldReserve.id) throw internalServerError();
+  if (oldReserve.id !== deletedOldReserve.id || !deletedOldReserve) throw internalServerError();
 
   const booking = await bookingRepository.create(userId, roomId);
   return booking.id;
