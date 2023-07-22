@@ -1,5 +1,5 @@
 import enrollmentRepository from '@/repositories/enrollment-repository';
-import { notFoundError } from '@/errors';
+import { internalServerError, notFoundError } from '@/errors';
 import ticketsRepository from '@/repositories/tickets-repository';
 import bookingRepository from '@/repositories/booking-repository';
 import { noVacancyError } from '@/errors/no-vacancy-error';
@@ -40,8 +40,23 @@ async function makeReseve(userId: number, roomId: number) {
   return booking.id;
 }
 
-async function changeRoom(/*userId: number, bookingId: number, roomId: number*/) {
-  return 1;
+async function changeRoom(userId: number, bookingId: number, roomId: number) {
+  const oldReserve = await getRooms(userId);
+  if (!oldReserve) throw notFoundError();
+
+  const room = await roomRepository.findRoomById(roomId);
+  if (!room) {
+    throw notFoundError();
+  }
+  if (room.capacity < 1) {
+    throw noVacancyError();
+  }
+  const deletedOldReserve = await roomRepository.deleteRoom(roomId);
+
+  if (oldReserve.id !== deletedOldReserve.id) throw internalServerError();
+
+  const booking = await bookingRepository.create(userId, roomId);
+  return booking.id;
 }
 
 const bookingService = {

@@ -6,7 +6,16 @@ async function findRoomById(roomId: number) {
   });
 }
 
+async function deleteRoom(roomId: number) {
+  return prisma.room.delete({
+    where: {
+      id: roomId,
+    },
+  });
+}
+
 const roomRepository = {
   findRoomById,
+  deleteRoom,
 };
 export default roomRepository;

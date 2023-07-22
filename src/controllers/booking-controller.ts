@@ -31,8 +31,7 @@ export async function changeReserve(req: AuthenticatedRequest, res: Response) {
     const { roomId } = req.body;
     const { bookingId } = req.params;
     const { userId } = req;
-    // userId, Number(bookingId), Number(roomId);
-    const room = await bookingService.changeRoom();
+    const room = await bookingService.changeRoom(userId, Number(bookingId), Number(roomId));
     res.send(room);
   } catch (error) {
     if (error.name === 'NoVacancyError') return res.sendStatus(httpStatus.FORBIDDEN);
