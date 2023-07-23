@@ -210,7 +210,7 @@ describe('PUT /booking/:bookingId', () => {
     expect(response.status).toBe(httpStatus.NOT_FOUND);
   });
 
-  it('should return 200 and roomId', async () => {
+  it('should return 200 and bookingId', async () => {
     const user = await createUser();
     const token = await generateValidToken(user);
     const enrollment = await createEnrollmentWithAddress(user);
@@ -226,5 +226,8 @@ describe('PUT /booking/:bookingId', () => {
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(httpStatus.OK);
+    expect(response.body).toEqual({
+      bookingId: expect.any(Number),
+    });
   });
 });
