@@ -141,6 +141,15 @@ describe('PUT /booking/:bookingId', () => {
     expect(response.status).toBe(httpStatus.UNAUTHORIZED);
   });
 
+  it('should return NotFoundError', async () => {
+    try {
+      const response = await bookingService.makeReseve(1, 2);
+      expect(response).toEqual(1);
+    } catch (error) {
+      expect(error).toEqual(notFoundError());
+    }
+  });
+
   it('should return 403 when user no have maded reserve before', async () => {
     const user = await createUser();
     const token = await generateValidToken(user);
@@ -192,6 +201,7 @@ describe('PUT /booking/:bookingId', () => {
 
     expect(response.status).toBe(httpStatus.FORBIDDEN);
   });
+
   it('should return 404 when new room dont exists', async () => {
     const user = await createUser();
     const token = await generateValidToken(user);
