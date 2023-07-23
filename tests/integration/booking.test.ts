@@ -141,24 +141,6 @@ describe('PUT /booking/:bookingId', () => {
     expect(response.status).toBe(httpStatus.UNAUTHORIZED);
   });
 
-  it('should return 200 and roomId', async () => {
-    const user = await createUser();
-    const token = await generateValidToken(user);
-    const enrollment = await createEnrollmentWithAddress(user);
-    const ticketType = await createTicketTypeWithHotel();
-    await createTicket(enrollment.id, ticketType.id, 'PAID');
-    const hotel = await createHotel();
-    const room = await createRoomWithHotelId(hotel.id);
-    const roomTwo = await createRoomWithHotelId(hotel.id);
-    const booking = await generateRoom(user.id, room.id);
-    const response = await server
-      .put(`/booking/${booking.id}`)
-      .send({ roomId: roomTwo.id })
-      .set('Authorization', `Bearer ${token}`);
-
-    expect(response.status).toBe(httpStatus.OK);
-  });
-
   it('should return 403 when user no have maded reserve before', async () => {
     const user = await createUser();
     const token = await generateValidToken(user);
@@ -209,5 +191,40 @@ describe('PUT /booking/:bookingId', () => {
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(httpStatus.FORBIDDEN);
+  });
+  it('should return 404 when new room dont exists', async () => {
+    const user = await createUser();
+    const token = await generateValidToken(user);
+    const enrollment = await createEnrollmentWithAddress(user);
+    const ticketType = await createTicketTypeWithHotel();
+    await createTicket(enrollment.id, ticketType.id, 'PAID');
+    const hotel = await createHotel();
+    const room = await createRoomWithHotelId(hotel.id);
+    const roomTwo = await createRoomWithHotelIdAPersonalized(hotel.id, 1);
+    const booking = await generateRoom(user.id, room.id);
+    const response = await server
+      .put(`/booking/${booking.id}`)
+      .send({ roomId: 9 })
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(response.status).toBe(httpStatus.NOT_FOUND);
+  });
+
+  it('should return 200 and roomId', async () => {
+    const user = await createUser();
+    const token = await generateValidToken(user);
+    const enrollment = await createEnrollmentWithAddress(user);
+    const ticketType = await createTicketTypeWithHotel();
+    await createTicket(enrollment.id, ticketType.id, 'PAID');
+    const hotel = await createHotel();
+    const room = await createRoomWithHotelId(hotel.id);
+    const roomTwo = await createRoomWithHotelId(hotel.id);
+    const booking = await generateRoom(user.id, room.id);
+    const response = await server
+      .put(`/booking/${booking.id}`)
+      .send({ roomId: roomTwo.id })
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(response.status).toBe(httpStatus.OK);
   });
 });
