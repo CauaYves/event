@@ -58,23 +58,6 @@ describe('POST /booking', () => {
     }
   });
 
-  it('should respond with status 200 and roomId', async () => {
-    const user = await createUser();
-    const token = await generateValidToken(user);
-    const enrollment = await createEnrollmentWithAddress(user);
-    const ticketType = await createTicketTypeWithHotel();
-    await createTicket(enrollment.id, ticketType.id, 'PAID');
-    const hotel = await createHotel();
-    const room = await createRoomWithHotelId(hotel.id);
-    const body = { roomId: room.id };
-
-    const response = await server.post('/booking').set('Authorization', `Bearer ${token}`).send(body);
-    expect(response.status).toBe(httpStatus.OK);
-    expect(response.body).toEqual({
-      bookingId: expect.any(Number),
-    });
-  });
-
   it('should respond NoVacancyError', async () => {
     const user = await createUser();
     const enrollment = await createEnrollmentWithAddress(user);
@@ -91,6 +74,33 @@ describe('POST /booking', () => {
     } catch (error) {
       expect(error).toEqual(noVacancyError());
     }
+  });
+
+  it('should respond with status 404 when user no have enrrolment', async () => {
+    const user = await createUser();
+    const token = await generateValidToken(user);
+    const ticketType = await createTicketTypeWithHotel();
+    const body = { roomId: 3 };
+
+    const response = await server.post('/booking').set('Authorization', `Bearer ${token}`).send(body);
+    expect(response.status).toBe(httpStatus.NOT_FOUND);
+  });
+
+  it('should respond with status 200 and roomId', async () => {
+    const user = await createUser();
+    const token = await generateValidToken(user);
+    const enrollment = await createEnrollmentWithAddress(user);
+    const ticketType = await createTicketTypeWithHotel();
+    await createTicket(enrollment.id, ticketType.id, 'PAID');
+    const hotel = await createHotel();
+    const room = await createRoomWithHotelId(hotel.id);
+    const body = { roomId: room.id };
+
+    const response = await server.post('/booking').set('Authorization', `Bearer ${token}`).send(body);
+    expect(response.status).toBe(httpStatus.OK);
+    expect(response.body).toEqual({
+      bookingId: expect.any(Number),
+    });
   });
 });
 
@@ -218,6 +228,22 @@ describe('PUT /booking/:bookingId', () => {
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(httpStatus.NOT_FOUND);
+  });
+
+  it('should return 403 when bookingId as not sended', async () => {
+    const user = await createUser();
+    const token = await generateValidToken(user);
+    const enrollment = await createEnrollmentWithAddress(user);
+    const ticketType = await createTicketTypeWithHotel();
+    await createTicket(enrollment.id, ticketType.id, 'PAID');
+    const hotel = await createHotel();
+    const roomTwo = await createRoomWithHotelId(hotel.id);
+    const response = await server
+      .put(`/booking/r`)
+      .send({ roomId: roomTwo.id })
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(response.status).toBe(httpStatus.FORBIDDEN);
   });
 
   it('should return 200 and bookingId', async () => {

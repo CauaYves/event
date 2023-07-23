@@ -44,6 +44,9 @@ async function makeReseve(userId: number, roomId: number) {
 }
 
 async function changeRoom(userId: number, bookingId: number, roomId: number) {
+  if (!bookingId) {
+    throw noVacancyError();
+  }
   const oldReserve = await bookingRepository.findReserveByUserId(userId);
   if (!oldReserve) {
     throw noVacancyError();

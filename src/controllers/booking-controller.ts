@@ -21,7 +21,7 @@ export async function reserveRoom(req: AuthenticatedRequest, res: Response) {
     return res.send({ bookingId });
   } catch (error) {
     if (error.name === 'NoVacancyError') return res.sendStatus(httpStatus.FORBIDDEN);
-    if (error.name === 'NotFoundError') return res.sendStatus(httpStatus.NOT_FOUND);
+    if (error.name === 'NotFoundError') return res.sendStatus(httpStatus.NOT_FOUND); // usar essa função
     return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
   }
 }
@@ -36,6 +36,6 @@ export async function changeReserve(req: AuthenticatedRequest, res: Response) {
   } catch (error) {
     if (error.name === 'NoVacancyError') return res.sendStatus(httpStatus.FORBIDDEN);
     if (error.name === 'NotFoundError') return res.sendStatus(httpStatus.NOT_FOUND);
-    if (error.name === 'CannotListHotelsError') return res.sendStatus(httpStatus.PAYMENT_REQUIRED);
+    if (error.name === 'CannotListHotelsError') return res.sendStatus(httpStatus.PAYMENT_REQUIRED); // usar essa
   }
 }
