@@ -43,21 +43,30 @@ async function makeReseve(userId: number, roomId: number) {
 
 async function changeRoom(userId: number, bookingId: number, roomId: number) {
   const oldReserve = await getRooms(userId);
-  if (!oldReserve) throw noVacancyError();
+  if (!oldReserve) {
+    console.log('o usuario nao fez reserva antes');
+    throw notFoundError();
+  }
 
   const room = await roomRepository.findRoomById(roomId);
+
   if (!room) {
     throw notFoundError();
   }
+
   if (room.capacity < 1) {
+    console.log('sala sem vagas');
     throw noVacancyError();
   }
-  const deletedOldReserve = await roomRepository.deleteRoom(roomId);
-
+  const existingBooking = await bookingRepository.findUnique(bookingId);
+  if (!existingBooking) {
+    throw notFoundError();
+  }
+  const deletedOldReserve = await bookingRepository.editBooking(oldReserve.id, room.id);
+  console.log(deletedOldReserve);
   if (oldReserve.id !== deletedOldReserve.id || !deletedOldReserve) throw internalServerError();
 
-  const booking = await bookingRepository.create(userId, roomId);
-  return booking.id;
+  return { roomId: deletedOldReserve.id };
 }
 
 const bookingService = {

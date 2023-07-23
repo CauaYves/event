@@ -142,28 +142,22 @@ describe('PUT /booking/:bookingId', () => {
     expect(response.status).toBe(httpStatus.UNAUTHORIZED);
   });
 
-  describe('bookingService', async () => {
-    it('should return 404 when user no have maded reserve', async () => {
-      const user = await createUser();
-      const enrollment = await createEnrollmentWithAddress(user);
-      const ticketType = await createTicketTypeWithHotel();
-      await createTicket(enrollment.id, ticketType.id, 'PAID');
-      const hotel = await createHotel();
-      const room = await createRoomWithHotelId(hotel.id);
-      const booking = await generateRoom(user.id, room.id);
+  it('should return 200 and roomId', async () => {
+    const user = await createUser();
+    const token = await generateValidToken(user);
+    const enrollment = await createEnrollmentWithAddress(user);
+    const ticketType = await createTicketTypeWithHotel();
+    await createTicket(enrollment.id, ticketType.id, 'PAID');
+    const hotel = await createHotel();
+    const room = await createRoomWithHotelId(hotel.id);
+    const roomTwo = await createRoomWithHotelId(hotel.id);
+    const booking = await generateRoom(user.id, room.id);
+    const response = await server
+      .put(`/booking/${booking.id}`)
+      .send({ roomId: roomTwo.id })
+      .set('Authorization', `Bearer ${token}`);
 
-      jest.spyOn(bookingService, 'getRooms').mockImplementationOnce(async () => {
-        return Promise.resolve({
-          // Retorna uma Promise que resolve para o objeto correto
-          id: booking.id,
-          Room: room,
-        });
-      });
-
-      const response = await bookingService.changeRoom(user.id, booking.id, room.id);
-
-      expect(response).toBe(httpStatus.NOT_FOUND);
-    });
+    expect(response.status).toBe(httpStatus.OK);
   });
 });
 
