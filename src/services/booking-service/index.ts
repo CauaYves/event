@@ -8,7 +8,9 @@ import roomRepository from '@/repositories/room-repository';
 async function getRooms(userId: number) {
   const booking = await bookingRepository.findReserveByUserId(userId);
 
-  if (!booking) throw notFoundError();
+  if (!booking) {
+    throw notFoundError();
+  }
   return {
     id: booking.id,
     Room: booking.Room,
@@ -42,10 +44,9 @@ async function makeReseve(userId: number, roomId: number) {
 }
 
 async function changeRoom(userId: number, bookingId: number, roomId: number) {
-  const oldReserve = await getRooms(userId);
+  const oldReserve = await bookingRepository.findReserveByUserId(userId);
   if (!oldReserve) {
-    console.log('o usuario nao fez reserva antes');
-    throw notFoundError();
+    throw noVacancyError();
   }
 
   const room = await roomRepository.findRoomById(roomId);
@@ -53,9 +54,10 @@ async function changeRoom(userId: number, bookingId: number, roomId: number) {
   if (!room) {
     throw notFoundError();
   }
+  const reservesFromRoom = await bookingRepository.getBookingByRoomId(roomId);
 
-  if (room.capacity < 1) {
-    console.log('sala sem vagas');
+  if (room.capacity === reservesFromRoom) {
+    console.log('retorna 403 se o quarto nao tem vagas?');
     throw noVacancyError();
   }
   const existingBooking = await bookingRepository.findUnique(bookingId);
@@ -63,10 +65,9 @@ async function changeRoom(userId: number, bookingId: number, roomId: number) {
     throw notFoundError();
   }
   const deletedOldReserve = await bookingRepository.editBooking(oldReserve.id, room.id);
-  console.log(deletedOldReserve);
   if (oldReserve.id !== deletedOldReserve.id || !deletedOldReserve) throw internalServerError();
 
-  return { roomId: deletedOldReserve.id };
+  return { bookingId: deletedOldReserve.id };
 }
 
 const bookingService = {
